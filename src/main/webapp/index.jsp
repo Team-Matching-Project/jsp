@@ -2,6 +2,11 @@
     pageEncoding="UTF-8"%>
 <%@ page import="dao.ProjectDAO" %>
 <%@ page import="dto.StatsDTO" %>
+<%@ page import="dao.UserDAO" %>
+<%@ page import="dto.UserDTO" %>
+<%@ page import="dao.NoticeDAO" %>
+<%@ page import="dto.NoticeDTO" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="java.util.List" %>
 <%
 	ProjectDAO projectDAO = new ProjectDAO();
@@ -9,6 +14,20 @@
 	List<StatsDTO> stats = projectDAO.countProjectsByDept();
 	pageContext.setAttribute("deadlineStats", deadlineStats);
 	pageContext.setAttribute("stats",stats);
+    String userRole = (String) session.getAttribute("userRole");
+    String userId = (String) session.getAttribute("userId");
+    
+    if (userRole == null) {
+        UserDAO userDAO = new UserDAO();
+        UserDTO user = userDAO.getUser(userId);
+        if (user != null) {
+            userRole = user.getRole();
+        }
+    }
+    
+    NoticeDAO noticeDAO = new NoticeDAO();
+    List<NoticeDTO> noticeList = noticeDAO.retrieveAll();
+    pageContext.setAttribute("noticeList", noticeList);
 	
 %>
 <!DOCTYPE html>
@@ -45,7 +64,23 @@
 			<div class="col-lg-4 col-12">
 				
 				<div class="card shadow-sm mb-4">
-					<div class="card-header fw-semibold">📣 공지사항</div>
+						<c:choose>
+							<c:when test="${sessionScope.userRole eq 'admin'}">
+									<div class="card-header fw-semibold d-flex justify-content-between align-items-center">
+									        <span>📣 공지사항</span>
+									        <a href="./addNotice.jsp" class="btn btn-sm btn-secondary">등록</a>
+									 </div>
+							</c:when>
+							<c:otherwise>
+								<div class="card-header fw-semibold">📣 공지사항</div>
+							</c:otherwise>
+						</c:choose>
+						<form action="searchAction.jsp" method="get" class="m-3 d-flex justify-content-center">
+						    <div class="input-group" style="max-width: 500px;"> <span class="input-group-text bg-white text-muted">🔍</span>
+						        <input type="text" class="form-control border-start-0" name="search" placeholder="제목으로만 검색 가능">
+						        <button type="submit" class="btn btn-dark">검색</button>
+						    </div>
+						</form>
 					<%@ include file="./notice.jsp" %> 
 				</div>
 				

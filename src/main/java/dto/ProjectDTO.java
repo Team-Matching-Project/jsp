@@ -20,6 +20,16 @@ public class ProjectDTO {
 	private String status;            // (모집 중, 모집 완료)
 	private String leaderID;          // 작성자 (FK, USER 테이블의 userID)
 	private String createDate;        // 작성일
+	private String requiredRoles;
+	private String department;
+
+	public String getDepartment() {
+		return department;
+	}
+
+	public void setDepartment(String department) {
+		this.department = department;
+	}
 
 	// 2. 기본 생성자 (필수)
 	public ProjectDTO() {}
@@ -98,5 +108,12 @@ public class ProjectDTO {
 	}
 	public void setCreateDate(String createDate) {
 		this.createDate = createDate;
+	}
+	
+	public String getRequiredRoles() {
+	    return requiredRoles;
+	}
+	public void setRequiredRoles(String requiredRoles) {
+	    this.requiredRoles = requiredRoles;
 	}
 }
