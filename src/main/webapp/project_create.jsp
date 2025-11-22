@@ -63,6 +63,11 @@
 							</div>
 							
 							<div class="mb-3">
+								<label for="department" class="form-label">학과</label>
+								<input type="text" class="form-control" name="department" id="department" placeholder="본인학과명">
+							</div>
+							
+							<div class="mb-3">
 								<label for="techStacks" class="form-label">필요 기술 스택 (쉼표로 구분)</label>
 								<input type="text" class="form-control" name="techStacks" id="techStacks" placeholder="예: Java, JSP, PPT, Excel, Figma">
 							</div>

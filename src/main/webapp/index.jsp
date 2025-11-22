@@ -1,5 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="dao.ProjectDAO" %>
+<%@ page import="dto.StatsDTO" %>
+<%@ page import="java.util.List" %>
+<%
+	ProjectDAO projectDAO = new ProjectDAO();
+	List<StatsDTO> deadlineStats = projectDAO.countProjectsNearDeadline();
+	List<StatsDTO> stats = projectDAO.countProjectsByDept();
+	pageContext.setAttribute("deadlineStats", deadlineStats);
+	pageContext.setAttribute("stats",stats);
+	
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -26,6 +37,7 @@
 				<%@ include file="./project_list.jsp" %>
 				
 				<div class="mt-4">
+					<h4 class="mb-3 fw-bold">📊 프로젝트 현황</h4>
 					<%@ include file="./statics.jsp" %>
 				</div>
 

@@ -24,7 +24,7 @@
           <a class="nav-link active" aria-current="page" href="project_list.jsp">프로젝트 목록</a>
         </li>
         
-        <c:if test="${not empty sessionScope.userID}">
+        <c:if test="${not empty sessionScope.userId}">
         	<li class="nav-item">
 	          <a class="nav-link" href="project_create.jsp">프로젝트 등록</a>
 	        </li>
@@ -33,7 +33,7 @@
       
       <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
       	
-      	<c:if test="${empty sessionScope.userID}">
+      	<c:if test="${empty sessionScope.userId}">
 	        <li class="nav-item">
 	          <a class="nav-link" href="login.jsp">로그인</a>
 	        </li>
@@ -42,10 +42,10 @@
 	        </li>
         </c:if>
         
-        <c:if test="${not empty sessionScope.userID}">
+        <c:if test="${not empty sessionScope.userId}">
         	<li class="nav-item">
         		<span class="navbar-text me-2">
-        			${sessionScope.userID}님, 환영합니다!
+        			${sessionScope.userId}님, 환영합니다!
         		</span>
 	        </li>
         	<li class="nav-item">

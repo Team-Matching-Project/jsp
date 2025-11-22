@@ -6,7 +6,6 @@
 <meta charset="UTF-8">
 <title>회원가입</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-
 <style>
 	body {
 		background-color: #f8f9fa;
@@ -25,23 +24,29 @@
 						
 						<h3 class="card-title text-center mb-4">회원가입</h3>
 						
-						<form action="joinAction.jsp" method="post">
+						<form action="./signUpAction.jsp" method="post">
 							
 							<div class="input-group mb-3">
 								<span class="input-group-text" style="min-width: 120px;">아이디</span>
-								<input type="text" class="form-control" name="id" id="id" placeholder="최소 6자리" required>
+								<input type="text" class="form-control" name="userId" id="userId" placeholder="최소 6자리" required>
 								<button class="btn btn-outline-secondary" type="button" id="btnIdCheck">중복확인</button>
 							</div>
 							
 							<div class="input-group mb-3">
+								<span class="input-group-text" style="min-width: 120px;">이름</span>
+								<input type="text" class="form-control" name="userName" id="userName" required>
+							</div>
+							
+							<div class="input-group mb-3">
 								<span class="input-group-text" style="min-width: 120px;">비밀번호</span>
-								<input type="password" class="form-control" name="password" id="password" placeholder="영문자, 숫자 섞어서 12자리 이상" required>
+								<input type="password" class="form-control" name="userPassword" id="userPassword" placeholder="영문자, 숫자 섞어서 12자리 이상" required>
 							</div>
 							
 							<div class="input-group mb-3">
 								<span class="input-group-text" style="min-width: 120px;">비밀번호 확인</span>
 								<input type="password" class="form-control" name="passwordConfirm" id="passwordConfirm" required>
 							</div>
+							
 							
 							<div class="input-group mb-3">
 								<span class="input-group-text" style="min-width: 120px;">생년월일</span>
@@ -80,5 +85,6 @@
 							</div>
 							
 						</form> </div> </div> </div> </div> </div> <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+						<script type="module" src="./resources/js/join.js"></script>
 </body>
 </html>
