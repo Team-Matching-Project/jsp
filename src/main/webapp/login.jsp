@@ -28,11 +28,11 @@
 						<form action="loginAction.jsp" method="post">
 							<div class="mb-3">
 								<label class="form-label" for="id">아이디 </label>
-								<input class="form-control" type="text" name="id" id="id" required/>
+								<input class="form-control" type="text" name="userId" id="userId" required/>
 							</div>
 							<div class="mb-3">
 								<label class="form-label" for="password">비밀번호</label>
-								<input class="form-control" type="password" name="password" id="password" required/>
+								<input class="form-control" type="password" name="userPassword" id="userPassword" required/>
 							</div>
 							
 							<div class="d-grid mt-4">
