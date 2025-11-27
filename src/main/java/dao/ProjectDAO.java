@@ -219,10 +219,8 @@ public class ProjectDAO {
             pstmt.setString(7, project.getRequiredRoles());
             pstmt.setString(8, project.getProjectDescription());
             
-            // [중요] 9번째 파라미터: 학과
             pstmt.setString(9, project.getDepartment());
 
-            // [중요] 10번째 파라미터: ID (int형)
             pstmt.setInt(10, project.getProjectID());
 
             return pstmt.executeUpdate();
@@ -239,7 +237,6 @@ public class ProjectDAO {
      * 7. 프로젝트 삭제
      */
     public int delete(int projectId) {
-        // [주의] DB 컬럼명이 projectID인지 확인
         String sql = "DELETE FROM PROJECT WHERE projectID = ?";
         
         try {
