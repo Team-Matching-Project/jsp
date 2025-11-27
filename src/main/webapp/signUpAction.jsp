@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%-- 필요한 클래스 임포트 --%>
 <%@ page import="dao.UserDAO" %>
 <%@ page import="dto.UserDTO" %>
 <%@ page import="java.time.LocalDate" %>

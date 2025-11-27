@@ -168,7 +168,6 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
-    // 삭제 함수만 남겨둠 (지원 함수는 모달로 대체되었으므로 제거)
     function deleteProject(id) {
         if(confirm("정말 삭제하시겠습니까? 복구할 수 없습니다.")) {
             location.href = "projectDeleteAction.jsp?id=" + id;

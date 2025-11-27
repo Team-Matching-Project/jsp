@@ -21,9 +21,9 @@
 	
 	String projectTitle = request.getParameter("projectTitle");
 	String projectType = request.getParameter("projectType");
-	String deadlineDate = request.getParameter("deadlineDate"); // "YYYY-MM-DD"
+	String deadlineDate = request.getParameter("deadlineDate");
 	String projectDuration = request.getParameter("projectDuration");
-	int totalMembers = Integer.parseInt(request.getParameter("totalMembers")); // 숫자로 변환
+	int totalMembers = Integer.parseInt(request.getParameter("totalMembers"));
 	String techStacks = request.getParameter("techStacks");
 	String requiredRoles = request.getParameter("requiredRoles");
 	String projectDescription = request.getParameter("projectDescription");

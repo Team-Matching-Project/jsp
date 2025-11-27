@@ -17,9 +17,6 @@ public class ProjectDAO {
     private PreparedStatement pstmt = null;
     private ResultSet rs = null;
 
-    /**
-     * 1. 프로젝트 생성 (학과 정보 포함)
-     */
     public int createProject(ProjectDTO project) {
         String sql = "INSERT INTO PROJECT (projectTitle, projectType, projectDuration, techStacks, "
                    + "requiredRoles, projectDescription, deadline, totalMembers, leaderID, status, createDate, department) "
@@ -37,7 +34,7 @@ public class ProjectDAO {
             pstmt.setString(7, project.getDeadline());
             pstmt.setInt(8, project.getTotalMembers());
             pstmt.setString(9, project.getLeaderID()); 
-            pstmt.setString(10, project.getDepartment()); // [중요] 학과 추가
+            pstmt.setString(10, project.getDepartment());
             
             return pstmt.executeUpdate();
             
@@ -49,9 +46,6 @@ public class ProjectDAO {
         return 0;
     }
 
-    /**
-     * 2. 모집 중인 전체 프로젝트 목록 조회
-     */
     public List<ProjectDTO> getAllProjects() {
         List<ProjectDTO> projectList = new ArrayList<>();
         String sql = "SELECT * FROM PROJECT WHERE status = '모집 중' ORDER BY createDate DESC";
@@ -71,8 +65,8 @@ public class ProjectDAO {
                 dto.setTotalMembers(rs.getInt("totalMembers"));
                 dto.setCurrentMembers(rs.getInt("currentMembers"));
                 dto.setLeaderID(rs.getString("leaderID")); 
-                dto.setDepartment(rs.getString("department")); // [중요] 학과 추가
-                dto.setProjectDescription(rs.getString("projectDescription")); // 목록 표시에 필요할 수 있음
+                dto.setDepartment(rs.getString("department"));
+                dto.setProjectDescription(rs.getString("projectDescription"));
                 
                 projectList.add(dto);
             }
@@ -84,9 +78,6 @@ public class ProjectDAO {
         return projectList;
     }
 
-    /**
-     * 3. 특정 프로젝트 상세 조회
-     */
     public ProjectDTO getProjectById(String projectID) {
         ProjectDTO dto = null;
         String sql = "SELECT * FROM PROJECT WHERE projectID = ?";
@@ -111,7 +102,7 @@ public class ProjectDAO {
                 dto.setCurrentMembers(rs.getInt("currentMembers"));
                 dto.setStatus(rs.getString("status"));
                 dto.setLeaderID(rs.getString("leaderID"));
-                dto.setDepartment(rs.getString("department")); // [중요] 학과 추가
+                dto.setDepartment(rs.getString("department"));
                 dto.setCreateDate(rs.getString("createDate"));
             }
         } catch (Exception e) {
@@ -122,9 +113,6 @@ public class ProjectDAO {
         return dto;
     }
     
-    /**
-     * 4. 내가 팀장인 프로젝트 목록 조회 (마이페이지)
-     */
     public List<ProjectDTO> getProjectsByLeader(String leaderID) {
         List<ProjectDTO> projectList = new ArrayList<>();
         String sql = "SELECT * FROM PROJECT WHERE leaderID = ? ORDER BY createDate DESC";
@@ -154,10 +142,6 @@ public class ProjectDAO {
         return projectList;
     }
 
-    /**
-     * 5. 내가 지원한 프로젝트 목록 조회 (마이페이지 - JOIN 사용)
-     * 반환 타입: List<ApplicationDTO>
-     */
     public List<ApplicationDTO> getAppliedProjects(String userId) {
         List<ApplicationDTO> list = new ArrayList<>();
         
@@ -178,7 +162,7 @@ public class ProjectDAO {
                 app.setAppId(rs.getInt("appID"));
                 app.setProjectId(rs.getInt("projectID"));
                 app.setStatus(rs.getString("status"));
-                app.setProjectTitle(rs.getString("projectTitle")); // 제목 담기
+                app.setProjectTitle(rs.getString("projectTitle"));
                 
                 list.add(app);
             }
@@ -190,9 +174,6 @@ public class ProjectDAO {
         return list;
     }
 
-    /**
-     * 6. 프로젝트 정보 수정 (학과 포함)
-     */
     public int updateProject(ProjectDTO project) {
         String sql = "UPDATE PROJECT SET "
                    + "projectTitle = ?, "
@@ -203,7 +184,7 @@ public class ProjectDAO {
                    + "techStacks = ?, "
                    + "requiredRoles = ?, "
                    + "projectDescription = ?, "
-                   + "department = ? " // [중요] 학과 수정 추가
+                   + "department = ? "
                    + "WHERE projectID = ?";
 
         try {
@@ -233,9 +214,6 @@ public class ProjectDAO {
         return -1;
     }
 
-    /**
-     * 7. 프로젝트 삭제
-     */
     public int delete(int projectId) {
         String sql = "DELETE FROM PROJECT WHERE projectID = ?";
         
@@ -252,11 +230,7 @@ public class ProjectDAO {
         return -1;
     }
     
-    /**
-     * 8. [통계] 마감 임박 프로젝트 (학과별 개수)
-     */
     public List<StatsDTO> countProjectsNearDeadline() {
-        // [수정 완료] FROM PROJECT 추가, 띄어쓰기 수정
         String sql = "SELECT department, count(department) as cnt "
                    + "FROM PROJECT "
                    + "WHERE DATEDIFF(deadline, CURDATE()) BETWEEN 0 AND 3 "
@@ -283,11 +257,7 @@ public class ProjectDAO {
         return list;
     }
 
-    /**
-     * 9. [통계] 전체 프로젝트 (학과별 개수)
-     */
     public List<StatsDTO> countProjectsByDept() {
-        // [수정 완료] FROM PROJECT 추가, 띄어쓰기 수정
         String sql = "SELECT department, count(department) as cnt "
                    + "FROM PROJECT "
                    + "GROUP BY department";

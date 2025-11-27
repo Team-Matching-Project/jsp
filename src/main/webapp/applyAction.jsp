@@ -44,7 +44,7 @@
     } else if (result == 0) {
         out.println("<script>");
         out.println("alert('이미 지원한 프로젝트입니다.');");
-        out.println("history.back();"); // 뒤로 가기
+        out.println("history.back();");
         out.println("</script>");
     } else {
         out.println("<script>");
