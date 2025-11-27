@@ -6,7 +6,15 @@
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+ <c:if test="${not empty param.lang}">
+    <c:set var="lang" value="${param.lang}" scope="session" />
+</c:if>
+<c:if test="${empty sessionScope.lang}">
+    <c:set var="lang" value="ko" scope="session" />
+ </c:if>
+ <fmt:setLocale value="${sessionScope.lang}" />
+<fmt:setBundle basename="message" />
 <%
     String userId = (String) session.getAttribute("userId");
     String projectId = request.getParameter("id");
@@ -60,7 +68,7 @@
         <div class="row justify-content-center">
             <div class="col-lg-10">
 
-                <h2 class="mb-3">지원자 관리</h2>
+                <h2 class="mb-3"><fmt:message key="applicantManagement" /></h2>
                 <p class="lead text-muted">
                     ${project.projectTitle}
                 </p>
@@ -68,13 +76,13 @@
                 <ul class="nav nav-tabs mt-4" id="myTab" role="tablist">
                     <li class="nav-item" role="presentation">
                         <button class="nav-link active" id="pending-tab" data-bs-toggle="tab" data-bs-target="#pending-tab-pane" type="button" role="tab">
-                            승인 대기 지원자
+                            <fmt:message key="applicantsAwaitingApproval"/>
                             <span class="badge bg-danger ms-1">${pendingList.size()}</span>
                         </button>
                     </li>
                     <li class="nav-item" role="presentation">
                         <button class="nav-link" id="approved-tab" data-bs-toggle="tab" data-bs-target="#approved-tab-pane" type="button" role="tab">
-                            확정된 팀원
+                            <fmt:message key="confirmedTeamMember"/>
                             <span class="badge bg-success ms-1">${approvedList.size()}</span>
                         </button>
                     </li>
@@ -88,7 +96,7 @@
 
                                 <c:if test="${empty pendingList}">
                                     <li class="list-group-item p-4 text-center text-muted">
-                                        승인 대기 중인 지원자가 없습니다.
+                                        <fmt:message key="noApplicantsAwaitingApproval"/>
                                     </li>
                                 </c:if>
 
@@ -98,10 +106,10 @@
                                             <div class="col-md-8">
                                                 <h5 class="mb-1">
                                                     ${app.userName} 
-                                                    <span class="text-muted fs-6">(${app.department} / ${app.grade}학년)</span>
+                                                    <span class="text-muted fs-6">(${app.department} / ${app.grade}<fmt:message key="grade" />)</span>
                                                 </h5>
                                                 <p class="mb-1 text-muted" style="font-size: 0.9rem;">
-                                                    <strong>보유 기술:</strong> ${app.skills}
+                                                    <strong><fmt:message key="requiredTechStack" />:</strong> ${app.skills}
                                                 </p>
                                                 <p class="mb-0 p-2 bg-light rounded" style="font-size: 0.9rem; white-space: pre-wrap;">${app.intro}</p>
                                             </div>
@@ -110,13 +118,13 @@
                                                 <form action="applicantAction.jsp" method="post" class="d-inline">
                                                     <input type="hidden" name="appID" value="${app.appId}">
                                                     <input type="hidden" name="projectID" value="${project.projectID}">
-                                                    <input type="hidden" name="action" value="approve"> <button type="submit" class="btn btn-success btn-sm mb-1" onclick="return confirm('승인하시겠습니까?');">승인</button>
+                                                    <input type="hidden" name="action" value="approve"> <button type="submit" class="btn btn-success btn-sm mb-1" onclick="return confirm('승인하시겠습니까?');"><fmt:message key="approve"/></button>
                                                 </form>
                                                 
                                                 <form action="applicantAction.jsp" method="post" class="d-inline">
                                                     <input type="hidden" name="appID" value="${app.appId}">
                                                     <input type="hidden" name="projectID" value="${project.projectID}">
-                                                    <input type="hidden" name="action" value="reject"> <button type="submit" class="btn btn-danger btn-sm mb-1" onclick="return confirm('거절하시겠습니까?');">거절</button>
+                                                    <input type="hidden" name="action" value="reject"> <button type="submit" class="btn btn-danger btn-sm mb-1" onclick="return confirm('거절하시겠습니까?');"><fmt:message key="refuse"/></button>
                                                 </form>
                                             </div>
                                         </div>
@@ -133,7 +141,7 @@
                                 
                                 <c:if test="${empty approvedList}">
                                     <li class="list-group-item p-4 text-center text-muted">
-                                        아직 확정된 팀원이 없습니다.
+                                       	<fmt:message key="noCompletedMember" />
                                     </li>
                                 </c:if>
 
@@ -145,10 +153,10 @@
                                                 <span class="text-muted fs-6">(${member.department} / ${member.grade}학년)</span>
                                             </h5>
                                             <p class="mb-0 text-muted" style="font-size: 0.9rem;">
-                                                <strong>보유 기술:</strong> ${member.skills}
+                                                <strong><fmt:message key="requiredTechStack" />:</strong> ${member.skills}
                                             </p>
                                         </div>
-                                        <span class="text-success fw-semibold">승인 완료</span>
+                                        <span class="text-success fw-semibold"><fmt:message key="approved"/></span>
                                     </li>
                                 </c:forEach>
                                 

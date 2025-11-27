@@ -22,7 +22,6 @@
     ProjectDAO dao = new ProjectDAO();
     int result = dao.delete(projectId);
 
-    // 5. 결과 처리
     if (result == 1) {
         out.println("<script>");
         out.println("alert('삭제되었습니다.');");

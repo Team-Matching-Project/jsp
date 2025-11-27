@@ -41,7 +41,7 @@
     if (result == 1) {
         out.println("<script>");
         out.println("alert('회원 정보가 수정되었습니다.');");
-        out.println("location.href='mypage.jsp';"); // 수정 후 마이페이지로 이동
+        out.println("location.href='mypage.jsp';");
         out.println("</script>");
     } else {
         out.println("<script>");

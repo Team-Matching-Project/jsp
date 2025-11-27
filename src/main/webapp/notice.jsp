@@ -10,10 +10,10 @@
 		<div class="container">
 			<table class="table">
 				<thead>
-					<th>번호</th>
-					<th>제목</th>
-					<th>글쓴이</th>
-					<th>작성날짜</th>
+					<th><fmt:message key="number" /></th>
+					<th><fmt:message key="title" /></th>
+					<th><fmt:message key="writer" /></th>
+					<th><fmt:message key="creationDate" /></th>
 				</thead>
 				<tbody>
 					<c:forEach var="notice" items="${noticeList}"
@@ -25,7 +25,7 @@
 									${notice.noticeTitle}
 								</a>
 							</td>
-							<td>관리자</td>
+							<td><fmt:message key="admin" /></td>
 							<td>${notice.createdAt}</td>
 						</tr>
 					</c:forEach>

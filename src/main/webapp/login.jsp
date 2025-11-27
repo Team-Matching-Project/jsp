@@ -1,15 +1,22 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<c:if test="${not empty param.lang}">
+    <c:set var="lang" value="${param.lang}" scope="session" />
+</c:if>
+<c:if test="${empty sessionScope.lang}">
+    <c:set var="lang" value="ko" scope="session" />
+</c:if>
+<fmt:setLocale value="${sessionScope.lang}" />
+<fmt:setBundle basename="message" />
 <%
-    // [1] 쿠키 확인 로직
-    String savedId = ""; // 저장된 아이디를 담을 변수
-    Cookie[] cookies = request.getCookies(); // 브라우저의 쿠키들을 가져옴
+    String savedId = "";
+    Cookie[] cookies = request.getCookies();
     
     if (cookies != null) {
         for (Cookie c : cookies) {
-            // 쿠키 이름이 "savedId"인 것을 찾음
             if ("savedId".equals(c.getName())) {
-                savedId = c.getValue(); // 쿠키 값을 변수에 저장
+                savedId = c.getValue();
                 break;
             }
         }
@@ -38,31 +45,31 @@
 				<div class="card shadow-sm">
 					<div class="card-body p-4">
 						
-						<h3 class="card-title text-center mb-4">로그인</h3>
+						<h3 class="card-title text-center mb-4"><fmt:message key="login" /></h3>
 						
 						<form action="loginAction.jsp" method="post">
 							<div class="mb-3">
-								<label class="form-label" for="userId">아이디 </label>
+								<label class="form-label" for="userId"><fmt:message key="id" /> </label>
                                 <input class="form-control" type="text" name="userId" id="userId" 
                                        value="<%= savedId %>" required/>
 							</div>
 							<div class="mb-3">
-								<label class="form-label" for="userPassword">비밀번호</label>
+								<label class="form-label" for="userPassword"><fmt:message key="password" /></label>
 								<input class="form-control" type="password" name="userPassword" id="userPassword" required/>
 							</div>
 							
                             <div class="mb-3 form-check">
                                 <input type="checkbox" class="form-check-input" name="rememberId" id="rememberId" 
                                        <%= !savedId.isEmpty() ? "checked" : "" %>>
-                                <label class="form-check-label" for="rememberId">아이디 저장</label>
+                                <label class="form-check-label" for="rememberId"><fmt:message key="idSave" /></label>
                             </div>
 
 							<div class="d-grid mt-4">
-								<button type="submit" class="btn btn-primary">로그인</button>
+								<button type="submit" class="btn btn-primary"><fmt:message key="login" /></button>
 							</div>
 
 							<div class="text-center mt-3">
-								<a href="signup.jsp">아직 회원이 아니신가요?</a>
+								<a href="signup.jsp"><fmt:message key="noMember" /></a>
 							</div>
 						</form>
 						
