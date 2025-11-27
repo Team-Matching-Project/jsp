@@ -3,42 +3,56 @@
 <%@ page import="dto.UserDTO" %>
 <%@ page import="dao.ProjectDAO" %>
 <%@ page import="dto.ProjectDTO" %>
-<%@ page import="dto.ApplicationDTO" %> <%-- [중요] ApplicationDTO 임포트 --%>
+<%@ page import="dto.ApplicationDTO" %>
 <%@ page import="java.util.List" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+<c:if test="${not empty param.lang}">
+    <c:set var="lang" value="${param.lang}" scope="session" />
+</c:if>
+<c:if test="${empty sessionScope.lang}">
+    <c:set var="lang" value="ko" scope="session" />
+</c:if>
+<fmt:setLocale value="${sessionScope.lang}" />
+<fmt:setBundle basename="message" />
+
 <%
     String userId = (String) session.getAttribute("userId");
     
     if (userId == null) {
-        out.println("<script>alert('로그인이 필요합니다.'); location.href='login.jsp';</script>");
+%>
+        <script>
+            alert('<fmt:message key="mustLogin" />'); 
+            location.href = 'login.jsp';
+        </script>
+<%
         return;
     }
 
-    // 1. 유저 정보 가져오기
     UserDAO userDAO = new UserDAO();
     UserDTO user = userDAO.getUser(userId);
     
     if (user == null) {
-        out.println("<script>alert('유저 정보를 불러오지 못했습니다.'); history.back();</script>");
+%>
+        <script>
+            alert('<fmt:message key="failToRetrieve" />'); 
+            history.back();
+        </script>
+<%
         return;
     }
 
-    // 2. 프로젝트 및 지원 현황 가져오기
     ProjectDAO projectDAO = new ProjectDAO();
     
-    // (1) 내가 만든 프로젝트 (리더인 경우)
     List<ProjectDTO> registeredProjects = projectDAO.getProjectsByLeader(userId); 
-    
-    // (2) 내가 지원한 프로젝트 (제목과 상태를 보기 위해 ApplicationDTO 사용)
-    // [중요] ProjectDAO의 getAppliedProjects가 List<ApplicationDTO>를 반환해야 함
     List<ApplicationDTO> appliedProjects = projectDAO.getAppliedProjects(userId);
 
-    // 3. JSTL 변수 설정
     pageContext.setAttribute("registeredProjects", registeredProjects);
     pageContext.setAttribute("appliedProjects", appliedProjects);
     pageContext.setAttribute("user", user);
-    pageContext.setAttribute("enter", "\n"); // 줄바꿈 변수
+    pageContext.setAttribute("enter", "\n");
 %>
 <!DOCTYPE html>
 <html>
@@ -58,32 +72,32 @@
     <jsp:include page="header.jsp" />
 
     <div class="container my-5">
-        <h2 class="text-center mb-4">마이페이지</h2>
+        <h2 class="text-center mb-4"><fmt:message key="mypage"/></h2>
 
         <div class="row g-4">
             
             <div class="col-lg-4">
                 <div class="card shadow-sm h-100">
-                    <div class="card-header fs-5 fw-semibold">개인정보</div>
+                    <div class="card-header fs-5 fw-semibold"><fmt:message key="personalInformation"/></div>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <strong>이름</strong><span><%=user.getUserName() %></span>
+                            <strong><fmt:message key="name" /></strong><span><%=user.getUserName() %></span>
                         </li>
                         <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <strong>학년</strong><span><%=user.getGrade() %>학년</span>
+                            <strong><fmt:message key="grade" /></strong><span><%=user.getGrade() %>학년</span>
                         </li>
                         <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <strong>학과</strong><span><%=user.getDepartment() %></span>
+                            <strong><fmt:message key="department" /></strong><span><%=user.getDepartment() %></span>
                         </li>
                         <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <strong>생년월일</strong><span><%=user.getBirthDate() %></span>
+                            <strong><fmt:message key="birthDate" /></strong><span><%=user.getBirthDate() %></span>
                         </li>
                         <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <strong>성별</strong><span><%=user.getUserGender() %></span>
+                            <strong><fmt:message key="gender" /></strong><span><%=user.getUserGender() %></span>
                         </li>
                         
                         <li class="list-group-item">
-                            <strong>보유 기술</strong>
+                            <strong><fmt:message key="possessedTechnology" /></strong>
                             <div class="mt-2">
                                 <c:if test="${not empty user.skills}">
                                     <c:set var="skillArray" value="${fn:split(user.skills, ',')}" />
@@ -95,7 +109,7 @@
                         </li>
                         
                         <li class="list-group-item">
-                            <strong>나의 강점</strong>
+                            <strong><fmt:message key="myStrength" /></strong>
                             <c:if test="${not empty user.strengths}">
                                 <c:set var="strengthList" value="${fn:split(user.strengths, enter)}" />
                                 <c:forEach var="strength" items="${strengthList}">
@@ -105,7 +119,7 @@
                         </li>
                     </ul>
                     <div class="card-footer text-center"> 
-                        <a href="edit_profile.jsp" class="btn btn-dark">개인정보수정</a>
+                        <a href="edit_profile.jsp" class="btn btn-dark"><fmt:message key="editPersonalInformation" /></a>
                     </div>
                 </div>
             </div>
@@ -114,12 +128,12 @@
                 
                 <div class="card shadow-sm mb-4"> 
                     <div class="card-header fs-5 fw-semibold d-flex justify-content-between align-items-center">
-                        등록한 프로젝트 관리
-                        <a href="project_create.jsp" class="btn btn-primary btn-sm">새 프로젝트 등록</a>
+                        <fmt:message  key="registeredProjectManagement"/>
+                        <a href="project_create.jsp" class="btn btn-primary btn-sm"><fmt:message key="registerNewProject" /></a>
                     </div>
                     <ul class="list-group list-group-flush">
                         <c:if test="${empty registeredProjects}">
-                            <li class="list-group-item text-center py-4 text-muted">등록한 프로젝트가 없습니다.</li>
+                            <li class="list-group-item text-center py-4 text-muted"><fmt:message key="noProject" /></li>
                         </c:if>
 
                         <c:forEach var="myProject" items="${registeredProjects}">
@@ -128,7 +142,7 @@
                                     <a href="project_view.jsp?id=${myProject.projectID}" class="text-decoration-none fw-semibold">
                                         ${myProject.projectTitle}
                                     </a>
-                                    <small class="text-muted ms-2">(현재 ${myProject.currentMembers} / ${myProject.totalMembers} 명)</small>
+                                    <small class="text-muted ms-2">(<fmt:message key="current" /> ${myProject.currentMembers} / ${myProject.totalMembers} <fmt:message key="people"/>)</small>
                                 </div>
                                 
                                 <c:choose>
@@ -137,7 +151,7 @@
                                     </c:when>
                                     <c:otherwise>
                                         <a href="manage_applicants.jsp?id=${myProject.projectID}" class="btn btn-outline-dark btn-sm">
-                                            지원자 관리
+                                            <fmt:message key="applicantManagement" />
                                         </a>
                                     </c:otherwise>
                                 </c:choose>
@@ -147,11 +161,11 @@
                 </div>
                 
                 <div class="card shadow-sm">
-                    <div class="card-header fs-5 fw-semibold">지원한 프로젝트 현황</div>
+                    <div class="card-header fs-5 fw-semibold"><fmt:message key="statusOfSupportedProjects" /></div>
                     <ul class="list-group list-group-flush">
                         
                         <c:if test="${empty appliedProjects}">
-                            <li class="list-group-item text-center py-4 text-muted">지원한 내역이 없습니다.</li>
+                            <li class="list-group-item text-center py-4 text-muted"><fmt:message key="noApply" /></li>
                         </c:if>
 
                         <c:forEach var="app" items="${appliedProjects}">
@@ -162,13 +176,13 @@
                                 
                                 <c:choose>
                                     <c:when test="${app.status == '승인 완료'}">
-                                        <span class="badge bg-success">승인 완료</span>
+                                        <span class="badge bg-success"><fmt:message key="approved" /></span>
                                     </c:when>
                                     <c:when test="${app.status == '거절'}">
-                                        <span class="badge bg-danger">거절</span>
+                                        <span class="badge bg-danger"><fmt:message key="refuse" /></span>
                                     </c:when>
                                     <c:otherwise>
-                                        <span class="badge bg-warning text-dark">승인 대기</span>
+                                        <span class="badge bg-warning text-dark"><fmt:message key="waitingForApproval" /></span>
                                     </c:otherwise>
                                 </c:choose>
                             </li>

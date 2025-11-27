@@ -1,31 +1,32 @@
 package dto;
 
-/**
- * ProjectDTO 클래스
- * - PROJECT 테이블의 데이터를 담는 '바구니' (Data Transfer Object)
- * - JSP 페이지 간에 프로젝트 정보를 전달할 때 사용됩니다.
- */
 public class ProjectDTO {
 
-	// 1. 필드 (DB 테이블의 컬럼명과 일치시키는 것이 좋음)
 	private int projectID;
 	private String projectTitle;
 	private String projectType;
 	private String projectDuration;
 	private String techStacks;
 	private String projectDescription;
-	private String deadline;          // 날짜도 String으로 처리하는 것이 JSP에서 편할 수 있습니다.
+	private String deadline;         
 	private int totalMembers;
-	private int currentMembers;       // 현재 모집된 인원 (DB에서 계산 또는 저장)
-	private String status;            // (모집 중, 모집 완료)
-	private String leaderID;          // 작성자 (FK, USER 테이블의 userID)
-	private String createDate;        // 작성일
+	private int currentMembers;
+	private String status;
+	private String leaderID;   
+	private String createDate;
+	private String requiredRoles;
+	private String department;
 
-	// 2. 기본 생성자 (필수)
+	public String getDepartment() {
+		return department;
+	}
+
+	public void setDepartment(String department) {
+		this.department = department;
+	}
+
 	public ProjectDTO() {}
 
-	// 3. Getters and Setters (모든 필드에 대해 생성)
-	// (Eclipse: Source -> Generate Getters and Setters...)
 	
 	public int getProjectID() {
 		return projectID;
@@ -98,5 +99,12 @@ public class ProjectDTO {
 	}
 	public void setCreateDate(String createDate) {
 		this.createDate = createDate;
+	}
+	
+	public String getRequiredRoles() {
+	    return requiredRoles;
+	}
+	public void setRequiredRoles(String requiredRoles) {
+	    this.requiredRoles = requiredRoles;
 	}
 }

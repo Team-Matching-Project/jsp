@@ -10,23 +10,28 @@
 		<div class="container">
 			<table class="table">
 				<thead>
-					<th>번호</th>
-					<th>제목</th>
-					<th>글쓴이</th>
-					<th>작성날짜</th>
-					<th>조회수</th>
+					<th><fmt:message key="number" /></th>
+					<th><fmt:message key="title" /></th>
+					<th><fmt:message key="writer" /></th>
+					<th><fmt:message key="creationDate" /></th>
 				</thead>
 				<tbody>
-					<tr>
-						<td>1</td>
-						<td>서버점검안내</td>
-						<td>관리자</td>
-						<td>2025-11-02</td>
-						<td>2134</td>
-					</tr>
+					<c:forEach var="notice" items="${noticeList}"
+					varStatus="status">
+						<tr>
+							<td>${status.count}</td>
+							<td>
+								<a href="./notice_review.jsp?id=${notice.id}">
+									${notice.noticeTitle}
+								</a>
+							</td>
+							<td><fmt:message key="admin" /></td>
+							<td>${notice.createdAt}</td>
+						</tr>
+					</c:forEach>
 				</tbody>
 				<tfoot>
-					<td colspan="5">아직 뭐라할지 고민중....</td>
+					<td colspan="5"></td>
 				</tfoot>
 			</table>
 		</div>
