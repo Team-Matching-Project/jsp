@@ -73,23 +73,3 @@ src/main
     ├── project_view.jsp            # 프로젝트 상세 보기 페이지
     ├── rule.jsp                    # 웹사이트 이용 수칙 컴포넌트
     └── statics.jsp                 # 학과별 프로젝트 통계 컴포넌트
-
-<br>
-## 💻 5. 데이터 구조 (ProjectDTO 설계)
-
-`PROJECT` 테이블 및 화면 전송을 위해 설계된 주요 데이터 필드입니다.
-
-| 필드명 | 타입 | 설명 |
-| :--- | :---: | :--- |
-| `projectID` | `int` | 프로젝트 고유 식별자 (PK) |
-| `projectTitle` | `String` | 프로젝트 제목 |
-| `projectType` | `String` | 프로젝트 종류 (학과 수업, 공모전 등) |
-| `projectDuration` | `String` | 예상 진행 기간 |
-| `techStacks` | `String` | 요구 기술 스택 (예: Java, JSP, MySQL) |
-| `projectDescription` | `String` | 프로젝트 상세 설명 |
-| `deadline` | `String` | 모집 마감 일자 |
-| `totalMembers` | `int` | 총 모집 목표 인원 |
-| `currentMembers` | `int` | 현재 참여 확정 인원 |
-| `status` | `String` | 모집 상태 (모집 중 / 모집 완료) |
-| `leaderID` | `String` | 개설자 아이디 (FK) |
-| `createDate` | `String` | 프로젝트 작성 일자 |
