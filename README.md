@@ -73,6 +73,8 @@ src/main
     ├── project_view.jsp            # 프로젝트 상세 보기 페이지
     ├── rule.jsp                    # 웹사이트 이용 수칙 컴포넌트
     └── statics.jsp                 # 학과별 프로젝트 통계 컴포넌트
+
+<br>
 ## 💻 5. 데이터 구조 (ProjectDTO 설계)
 
 `PROJECT` 테이블 및 화면 전송을 위해 설계된 주요 데이터 필드입니다.
